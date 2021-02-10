@@ -1,3 +1,13 @@
+const express = require('express');
+const app = express();
+const port = 3000;
+
+// app.get('/pets', (req, res) => res.send('pet adopter backend'));
+
+// app.listen(port, () => console.log(`pet adopter backend listening on port ${port}!`));
+
+
+
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = new Sequelize('thursday', 'tisdalefry', null, {dialect: 'postgres', host: 'localhost'});
 sequelize.authenticate()
@@ -22,27 +32,38 @@ async function onceConnected() {
             type: DataTypes.STRING,
             allowNull: false,
             // defaultValue: "a fucking dog"
+        },
+        petImage: {
+            type: DataTypes.STRING
         }
-    }, {
-        timestamps: false
     });
-    // const Owner = sequelize.define('Owner', {
-    //     name: {
-    //         type: DataTypes.STRING,
-    //         allowNull: false
-    //     },
-    //     age: {
-    //         type: DataTypes.INTEGER,
-    //         allowNull: false
-    //     }
-    // }, {
-    //     timestamps: false
-    // });
-    // Owner.hasMany(Pet);
+    const Owner = sequelize.define('Owner', {
+        firstName: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        lastName: {
+            type: DataTypes.STRING
+        },
+        age: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        }
+    });
+    Owner.hasMany(Pet);
+
+    // app.get('/pets', function(req, res) {
+    //    await Pet.findAll(pets => res.json(pets))
+    // })
+    
     // await sequelize.sync({force: true});  //saves alterations to table
     // await Pet.sync();
-    const createPet = await Pet.create({name: 'Raplh', size: 'large', color: 'calico', petType: "cat"})
-    // const pets = await Pet.findAll({attributes: ['name']});
+    // const createPet = await Pet.create({name: 'Caitlyn', size: 'small', color: 'orange', petType: 'cat'})
+    app.get('/pets', function(req, res) {
+        Pet.findAll().then(pets => res.json(pets))
+    })
+    app.listen(port, () => console.log(`pet adopter backend listening on port ${port}!`));
+    // const pets = await Pet.findAll();
     // console.log("All Pets: ", JSON.stringify(pets, null, 2));
 }
 
