@@ -6,6 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [
+    "nodejs",
+    "sequelize",
+    "one-to-many",
+    "association"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Tisdale511/pet-adopter-backend.git"
